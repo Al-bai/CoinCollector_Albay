@@ -1,9 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem; // WAJIB untuk Input System
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public int skor = 0;
     public float kecepatan = 5f;
+    public TMP_Text txt;
     private Vector2 arahGerak; // nilai dari action "Move"
     // Dipanggil OTOMATIS oleh komponen Player Input
     // saat action "Move" pada asset InputSystem_Actions aktif.
@@ -20,5 +23,29 @@ public class PlayerMovement : MonoBehaviour
     // Ingat kalikan kecepatan DAN Time.deltaTime!
     Vector3 arah = new Vector3(arahGerak.x, arahGerak.y, 0);
     transform.position += arah * kecepatan * Time.deltaTime;
+    UpdateScore();
     }
+
+    // Dipanggil otomatis saat Player menyentuh objek ber-Trigger
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        // TODO: cek apakah yang disentuh punya tag "Coin"
+        if (other.CompareTag("Coin"))
+        {
+            // TODO: hancurkan koin yang tersentuh
+            Destroy(other.gameObject);
+            // TODO: tambah skor sebanyak 1
+            skor++;
+            // TODO: tampilkan skor ke Console
+            Debug.Log( "Score : " + skor );
+
+        }
+    
+    }
+
+    void UpdateScore()
+    {
+      txt.text = "Score : " + skor;
+    }
+
 }
