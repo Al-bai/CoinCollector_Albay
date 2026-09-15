@@ -1,4 +1,4 @@
-# UTS 
+# UTS GAMEDEV SEMESTER 1
 
 ## Identitas 
 
