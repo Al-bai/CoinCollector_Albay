@@ -3,6 +3,8 @@ using TMPro;
 
 public class GameManager: MonoBehaviour
 {
+        [SerializeField] private int skor = 0;
+
         public int totalKoin;
         private int koinTerkumpul = 0;
         public TMP_Text txt;
@@ -20,7 +22,7 @@ public class GameManager: MonoBehaviour
             UpdateScore();
 
             // TODO: jika koinTerkumpul == totalKoin, panggil Menang()
-            if ( koinTerkumpul >= totalKoin ) Menang();
+            if ( koinTerkumpul == totalKoin ) Menang();
         
         }
 
@@ -31,7 +33,24 @@ public class GameManager: MonoBehaviour
 
         void UpdateScore()
         {
-        txt.text = "Score : " + koinTerkumpul;
+           txt.text = "Score : " + koinTerkumpul;
         }
+
+       
+         void OnEnable()
+         {
+            Enemy.OnZombieMati += TambahSkorSaatZombieMati;
+         }
+
+         void OnDisable()
+         {
+            Enemy.OnZombieMati -= TambahSkorSaatZombieMati;
+         }
+
+         void TambahSkorSaatZombieMati(Enemy zombieYangMati)
+         {
+            skor += 10;
+            Debug.Log("Skor: " + skor);
+         }
 
 }

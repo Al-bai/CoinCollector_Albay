@@ -5,7 +5,7 @@ using UnityEngine.InputSystem; // WAJIB untuk Input System
 public class PlayerMovement : MonoBehaviour
 {
     public GameManager gameManager;
-    public int skor = 0;
+    // public int skor = 0;
     public float kecepatan = 5f;
     
     private Vector2 arahGerak; // nilai dari action "Move"
