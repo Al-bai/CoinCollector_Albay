@@ -1199,22 +1199,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
---- !u!114 &690234734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 690234729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07134fc62707e1d449c2848212abb1a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemData:
-    ItemName: Koin
-    Quantity: 0
-    ItemIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &690234735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1227,7 +1211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9b1b7fbb7baf648990660239cf2c57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemDetails: {fileID: 11400000, guid: 0aa90788321b8074dad0ec1182c2bfa9, type: 2}
+  ItemDetails: {fileID: 11400000, guid: 6f9814f755aa73e49a7e4874617236eb, type: 2}
 --- !u!1 &723436508
 GameObject:
   m_ObjectHideFlags: 0
@@ -8364,9 +8348,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5032824001822157061, guid: 61a1b5cf1d2d9ae4e83d2018f0f1fe1d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 690234732}
-    - targetCorrespondingSourceObject: {fileID: 5032824001822157061, guid: 61a1b5cf1d2d9ae4e83d2018f0f1fe1d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 690234734}
     - targetCorrespondingSourceObject: {fileID: 5032824001822157061, guid: 61a1b5cf1d2d9ae4e83d2018f0f1fe1d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 690234735}

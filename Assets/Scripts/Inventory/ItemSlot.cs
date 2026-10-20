@@ -1,8 +1,9 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class ItemSlot : MonoBehaviour
+public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
     // Item Data
     public string itemName;
@@ -13,17 +14,69 @@ public class ItemSlot : MonoBehaviour
     // Item Slot
     [SerializeField] private TMP_Text quantityText;
     [SerializeField] private Image itemImage;
+    [SerializeField] private int maxStackSize = 64;
+
+    // Interactive Item Slot
+    [SerializeField] public GameObject SelectedPanel;
+    public bool isItemSelected;
+    private InventoryManager InventoryManager;
+
+    public void Awake() {
+        InventoryManager = FindFirstObjectByType<InventoryManager>();
+    }
+
     
    public void AddItem(ItemDetails item)
     {
         itemName = item.ItemName;
-        itemQuantity = item.Quantity;
+        // itemQuantity = item.Quantity;
         itemIcon = item.ItemIcon;
-        isFull = true;
+        // isFull = true;
+        AddQuantity(item.Quantity);
 
+    }
+
+    public bool CanStackWith(string otherItemName){
+         return !isFull && itemName == otherItemName;
+    
+    }
+
+    public void AddQuantity(int amount)
+    {
+        itemQuantity += amount;
+        isFull = itemQuantity >= maxStackSize;
+        
         quantityText.text = itemQuantity.ToString();
         quantityText.enabled = true;
         itemImage.sprite = itemIcon;
+
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            LeftClick();
+        }
+        
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            RightClick();
+        }
+    }
+
+    private void LeftClick()
+    {
+        Debug.Log("Left Clicked on ");
+        InventoryManager.DesselectAllSlot();
+        SelectedPanel.SetActive(true);
+        isItemSelected = true;
+    }
+
+    private void RightClick()
+    {
+        
+        Debug.Log("Right Clicked on ");
     }
     
 }

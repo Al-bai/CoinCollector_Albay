@@ -384,3 +384,6 @@ MonoBehaviour:
   isFull: 0
   quantityText: {fileID: 7446598686950901390}
   itemImage: {fileID: 8307637215291599180}
+  maxStackSize: 64
+  SelectedPanel: {fileID: 4875962190592306419}
+  isItemSelected: 0

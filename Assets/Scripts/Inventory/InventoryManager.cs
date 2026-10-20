@@ -85,4 +85,13 @@ public class InventoryManager : MonoBehaviour, GrabableItem
 
         Debug.LogWarning("Inventory is full, '" + item.ItemName + "' was lost.");
     }
+
+    public void DesselectAllSlot()
+    {
+        foreach (ItemSlot slot in itemSlot)
+        {
+            slot.isItemSelected = false;
+            slot.SelectedPanel.SetActive(false);
+        }
+    }
 }
