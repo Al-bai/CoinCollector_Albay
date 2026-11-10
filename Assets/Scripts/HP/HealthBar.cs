@@ -44,13 +44,13 @@ public class HealthBar : MonoBehaviour
 
     void Update()
     {
-        // --- 1. EFEK PUNCH (Kembali ke skala normal) ---
+        
         if (transform.localScale != originalScale)
         {
             transform.localScale = Vector3.Lerp(transform.localScale, originalScale, springSpeed * Time.deltaTime);
         }
 
-        // --- 2. EFEK DAMAGE CHUNK (Smooth Drain dengan Delay) ---
+      
         if (easeSlider.value != healthSlider.value)
         {
             delayTimer -= Time.deltaTime;
@@ -90,13 +90,12 @@ public class HealthBar : MonoBehaviour
 
     private IEnumerator HitEffects()
     {
-        // 1. PUNCH EFFECT: Ubah skala Y menjadi lebih besar
+        
         transform.localScale = new Vector3(originalScale.x, originalScale.y * punchScaleY, originalScale.z);
 
-        // 2. FLASH EFFECT: Ubah warna darah menjadi putih sesaat
+      
         healthFill.color = flashColor;
 
-        // 3. SHAKE EFFECT: Getarkan posisi selama durasi tertentu
         float elapsed = 0f;
         while (elapsed < shakeDuration)
         {
@@ -105,7 +104,7 @@ public class HealthBar : MonoBehaviour
 
             transform.localPosition = originalPosition + new Vector3(x, y, 0);
 
-            // Jika durasi flash sudah lewat, kembalikan warna ke warna darah normal
+           
             if (elapsed > flashDuration)
             {
                 healthFill.color = currentColor;
@@ -115,7 +114,7 @@ public class HealthBar : MonoBehaviour
             yield return null;
         }
 
-        // Kembalikan semuanya ke kondisi normal setelah selesai
+    
         transform.localPosition = originalPosition;
         healthFill.color = currentColor;
     }
