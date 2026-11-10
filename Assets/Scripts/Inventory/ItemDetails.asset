@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 696aebdde61af944d9d29b763e727a79, type: 3}
   m_Name: ItemDetails
   m_EditorClassIdentifier: 
-  itemName: Coin
+  itemName: Coin Emas
   quantity: 1
-  itemIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  itemIcon: {fileID: 8624360238209807696, guid: e508761a56b172e4b95dd565d9f724ce, type: 3}
+  description: Well, koin emas biasa cukup untuk ganjel perut
