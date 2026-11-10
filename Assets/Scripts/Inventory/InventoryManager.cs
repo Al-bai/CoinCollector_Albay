@@ -10,6 +10,8 @@ public class InventoryManager : MonoBehaviour, GrabableItem
     private bool InventoryActive;
     public ItemSlot[] itemSlot;
 
+    [SerializeField] private ItemDetailsPanel detailsPanel;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,6 +20,9 @@ public class InventoryManager : MonoBehaviour, GrabableItem
         inventoryAction = InputSystem.actions.FindAction("Inventory");
         InventoryActive = false;
 
+        if (detailsPanel == null) {
+            Debug.LogWarning("Details Panel not assigned");
+        }
     }
 
     // Update is called once per frame
@@ -29,6 +34,8 @@ public class InventoryManager : MonoBehaviour, GrabableItem
             Time.timeScale = 0f;
             Debug.Log("Inventory is active");
             InventoryCanvas.SetActive(true);
+            ShowFirstItem();
+
         } else if (inventoryAction.triggered && InventoryCanvas != null && InventoryActive == true)
         {
             InventoryActive = false;
@@ -74,9 +81,21 @@ public class InventoryManager : MonoBehaviour, GrabableItem
             return;
         }
 
+        
         for (int i = 0; i < itemSlot.Length; i++)
         {
-            if (!itemSlot[i].isFull)
+            // Catatan: Pastikan nama fungsi di ItemSlot Anda adalah CanStackWith
+            if (itemSlot[i].CanStackWith(item.ItemName))
+            {
+                itemSlot[i].AddQuantity(item.Quantity);
+                return;
+            }
+        }
+
+     
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            if (itemSlot[i].IsEmpty) 
             {
                 itemSlot[i].AddItem(item);
                 return;
@@ -86,12 +105,48 @@ public class InventoryManager : MonoBehaviour, GrabableItem
         Debug.LogWarning("Inventory is full, '" + item.ItemName + "' was lost.");
     }
 
-    public void DesselectAllSlot()
+    public void DeselectAllSlot()
     {
         foreach (ItemSlot slot in itemSlot)
         {
             slot.isItemSelected = false;
             slot.SelectedPanel.SetActive(false);
+        }
+    }
+
+    public void SelectSlot (ItemSlot slot) 
+    {
+        DeselectAllSlot(); 
+        
+        slot.SelectedPanel.SetActive(true);
+        slot.isItemSelected = true;
+
+        if (detailsPanel != null)
+        {
+            detailsPanel.Show(slot.ItemDetails, slot.itemQuantity);
+        }
+    }
+
+    public void ShowFirstItem()
+    {
+        if(itemSlot != null)
+        {
+            foreach(ItemSlot slot in itemSlot)
+            {
+                if(!slot.IsEmpty)
+                {
+                  
+                    SelectSlot(slot); 
+                    return;
+                }
+            }
+        }
+
+        if(detailsPanel != null)
+        {
+            // Opsi bagus: Bersihkan panel jika inventory kosong saat dibuka
+            detailsPanel.Clear(); 
+            return;
         }
     }
 }

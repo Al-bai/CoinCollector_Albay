@@ -15,26 +15,33 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TMP_Text quantityText;
     [SerializeField] private Image itemImage;
     [SerializeField] private int maxStackSize = 64;
-
+    
     // Interactive Item Slot
     [SerializeField] public GameObject SelectedPanel;
     public bool isItemSelected;
     private InventoryManager InventoryManager;
 
+    // Menampilkan Details ke Panel
+    public ItemDetails ItemDetails => itemDetails;
+    private ItemDetails itemDetails;
+
     public void Awake() {
         InventoryManager = FindFirstObjectByType<InventoryManager>();
     }
 
-    
-   public void AddItem(ItemDetails item)
+    public void AddItem(ItemDetails item)
     {
+
+        itemDetails = item; 
+
         itemName = item.ItemName;
-        // itemQuantity = item.Quantity;
         itemIcon = item.ItemIcon;
-        // isFull = true;
         AddQuantity(item.Quantity);
 
     }
+
+    public bool IsEmpty => itemQuantity <= 0;
+
 
     public bool CanStackWith(string otherItemName){
          return !isFull && itemName == otherItemName;
@@ -49,6 +56,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         quantityText.text = itemQuantity.ToString();
         quantityText.enabled = true;
         itemImage.sprite = itemIcon;
+        itemImage.enabled = true;
 
     }
 
@@ -68,9 +76,16 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     private void LeftClick()
     {
         Debug.Log("Left Clicked on ");
-        InventoryManager.DesselectAllSlot();
-        SelectedPanel.SetActive(true);
-        isItemSelected = true;
+        // InventoryManager.DesselectAllSlot();
+        // SelectedPanel.SetActive(true);
+        // isItemSelected = true;
+
+        if(IsEmpty || InventoryManager == null)
+        {
+            return;
+        }
+
+        InventoryManager.SelectSlot(this);
     }
 
     private void RightClick()
