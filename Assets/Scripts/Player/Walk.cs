@@ -9,6 +9,16 @@ public class PlayerMovement : MonoBehaviour
     public float kecepatan = 5f;
     
     private Vector2 arahGerak; // nilai dari action "Move"
+
+    private Animator animator;
+
+    void Start()
+    {
+       // Mengambil komponen Animator dari GameObject ini
+        animator = GetComponent<Animator>();
+        animator.SetFloat("MoveX", 0);
+        animator.SetFloat("MoveY", -1);
+    }
     // Dipanggil OTOMATIS oleh komponen Player Input
     // saat action "Move" pada asset InputSystem_Actions aktif.
     // Nama method WAJIB: On + nama action -> OnMove
@@ -20,10 +30,25 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-    // TODO: gerakkan objek memakai arahGerak.
-    // Ingat kalikan kecepatan DAN Time.deltaTime!
+    
+  
     Vector3 arah = new Vector3(arahGerak.x, arahGerak.y, 0);
     transform.position += arah * kecepatan * Time.deltaTime;
+
+    if (arahGerak != Vector2.zero)
+        {
+            // Mengirim nilai arah x dan y ke parameter Animator
+            animator.SetFloat("MoveX", arahGerak.x);
+            animator.SetFloat("MoveY", arahGerak.y);
+            
+            // Mengaktifkan parameter isMoving (berguna jika kamu pakai transisi Idle -> Move)
+            animator.SetBool("isMoving", true); 
+        }
+        else
+        {
+            // Matikan isMoving jika player diam
+            animator.SetBool("isMoving", false);
+        }
    
     }
 
