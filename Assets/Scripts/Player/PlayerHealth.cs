@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem; 
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -16,16 +16,6 @@ public class PlayerHealth : MonoBehaviour
         healthBar.SetMaxHealth(maxHealth);
     }
 
-    void Update()
-    {
-       
-      
-        if (Keyboard.current.spaceKey.wasPressedThisFrame) 
-        {
-            TakeDamage(15);
-        }
-        
-    }
 
     
     public void TakeDamage(int damage)
@@ -57,6 +47,7 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Debug.Log("Player Mati!");
-        // TODO: Tambahkan efek hancur / Game Over di sini
+        string sceneSekarang = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(sceneSekarang);
     }
 }

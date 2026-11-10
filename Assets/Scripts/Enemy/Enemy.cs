@@ -6,12 +6,19 @@ public class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] private int hp = 100;
 
+    [Header("Pengaturan Serangan")]
+    [SerializeField] private int damageKePlayer = 15;
+
     [Header("Pengaturan State Machine")]
     [SerializeField] private float jarakDeteksi = 6f;
     [SerializeField] private float jarakSerang = 1.9f;
     [SerializeField] private float jedaSerang = 3f;
 
     [SerializeField] private UnityEvent onZombieMatiVisual;
+
+    [Header("Input Animasi")]
+    [SerializeField] private Animator anim;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     // 'static' -> SATU event ini dipakai bersama oleh SEMUA zombie.
     // <Enemy> -> saat dipicu, ia mengirim info "zombie mana yang mati".
@@ -22,8 +29,14 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public float ms = 2f;
     protected Transform player;
+
+    private float timerIdle; //untuk idle
+
     protected virtual void Start()
     {
+        if (anim == null) anim = GetComponent<Animator>();
+        if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
+
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
@@ -34,6 +47,7 @@ public class Enemy : MonoBehaviour, IDamageable
     void Update()
     {
         PeriksaTransisi();
+        AturAnimasiDanArah();
 
         switch (state)
         {
@@ -44,10 +58,49 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
+    protected virtual void AturAnimasiDanArah()
+    {
+        if (anim != null)
+        {
+            bool isMoving = (state == StateZombie.CHASE || state == StateZombie.PATROL);
+            
+        }
+
+     
+        if (spriteRenderer != null && player != null)
+        {
+            
+            if (state == StateZombie.CHASE || state == StateZombie.ATTACK)
+            {
+                float bedaX = player.position.x - transform.position.x;
+                
+                
+                if (bedaX < 0)
+                {
+                    spriteRenderer.flipX = true;
+                }
+               
+                else if (bedaX > 0)
+                {
+                    spriteRenderer.flipX = false;
+                }
+            }
+        }
+    }
+
     void PerilakuIdle()
     {
-        transform.Rotate(0, 0, 30f * Time.deltaTime);
-        //Debug.Log("ENEMY SEDANG IDLE");
+       timerIdle -= Time.deltaTime;
+      
+        if (timerIdle <= 0f)
+        {
+            if (spriteRenderer != null)
+            {
+                
+                spriteRenderer.flipX = !spriteRenderer.flipX; 
+            }
+                timerIdle = UnityEngine.Random.Range(1f, 3f);
+        }
     }
 
     void PerilakuPatrol()
@@ -119,7 +172,20 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public virtual void Serang()
     {
-        Debug.Log("Enemy menyerang!");
+        if (player != null)
+        {
+            
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            
+            if (playerHealth != null)
+            {
+               
+                playerHealth.TakeDamage(damageKePlayer);
+                Debug.Log($"{gameObject.name} menyerang player dan memberikan {damageKePlayer} damage!");
+            }
+        }
+
+        Mati();
     }
 
     public void KenaDamage(int jumlah) 

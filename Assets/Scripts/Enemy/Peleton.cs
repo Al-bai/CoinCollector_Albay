@@ -7,5 +7,11 @@ public class Peleton : Enemy
 
    public override void Serang(){
     Debug.Log("Peleton menyerang");
+    base.Serang();
+   }
+
+   protected override void AturAnimasiDanArah()
+   {
+      base.AturAnimasiDanArah(); 
    }
 }

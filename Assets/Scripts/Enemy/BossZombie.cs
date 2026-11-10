@@ -14,6 +14,6 @@ public class BossZombie : Enemy
 
     public override void Serang()
     {
-        Debug.Log("Boss menyerang!");
+        base.Serang();
     }
 }
